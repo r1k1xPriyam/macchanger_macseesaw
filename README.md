@@ -5,7 +5,9 @@ MacSeeSaw
 
 # Features
   📝You can add your Custom MAC 
+  
   ♻You can choose from Different OS's MAC vendors
+  
   🌍With selecting Default it can obtain any random MAC address 
 
 # Installation
