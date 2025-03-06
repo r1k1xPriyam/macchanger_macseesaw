@@ -31,10 +31,14 @@ BANNER = f"""
 
 # Vendor MAC Prefixes
 VENDOR_MAC_PREFIXES = {
-    "Android": ["02:1A:11", "06:5B:D2", "0A:9C:F3"],
-    "iOS": ["02:5A:13", "06:3B:A1", "0A:7D:E4"],
-    "Windows": ["00:1A:2B", "00:26:9E", "00:50:56"],
-    "Linux": ["00:16:3E", "52:54:00", "02:42:AC"]
+    "Apple": ["00:1A:2B", "F0:99:BF", "D8:9E:61"],
+    "Intel": ["00:1B:21", "3C:D9:2B", "F8:34:41"],
+    "Sony": ["00:19:C5", "FC:F1:52", "A4:15:66"],
+    "Samsung": ["00:16:6B", "08:BD:43", "5C:96:9D"],
+    "Cisco": ["00:23:04", "00:25:9C", "00:1E:49"],
+    "Dell": ["00:14:22", "00:1E:4F", "84:2B:2B"],
+    "Lenovo": ["00:0C:29", "10:C3:7B", "F8:A9:D0"],
+    "Asus": ["00:0C:6E", "1C:B7:2C", "24:4B:FE"]
 }
 
 def print_banner():
@@ -121,7 +125,7 @@ def main():
     print(f"\n{CYAN}Choose MAC address option:{RESET}")
     print(f"[1] Enter custom MAC")
     print(f"[2] Generate random MAC")
-    print(f"[3] Choose vendor MAC (Android/iOS/Windows/Linux)")
+    print(f"[3] Choose vendor MAC (Apple, Intel, Sony, Samsung, Cisco, Lenovo, Dell, Asus)")
     print(f"[4] Default (Press ENTER to skip)")
 
     mac_choice = input(f"\n{CYAN}Enter choice: {RESET}")
@@ -135,7 +139,7 @@ def main():
     elif mac_choice == '2':
         new_mac = generate_random_mac()
     elif mac_choice == '3':
-        vendor = input(f"\n{CYAN}Enter vendor (Android/iOS/Windows/Linux): {RESET}").capitalize()
+        vendor = input(f"\n{CYAN}Enter vendor (Apple/Intel/Sony/Samsung/Cisco/Lenovo/Dell/Asus): {RESET}").capitalize()
         new_mac = generate_vendor_mac(vendor) or generate_random_mac()
     else:
         print(f"{YELLOW}Keeping current MAC!{RESET}")
