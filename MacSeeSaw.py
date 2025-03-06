@@ -79,11 +79,17 @@ def change_mac(interface, new_mac):
         print(f"{RED}Error changing MAC: {e}{RESET}")
         return False
 
-def auto_change_mac(interface, interval):
+def auto_change_mac(interface, interval, mac_type):
     """Automatically change MAC address at a user-defined interval"""
     try:
         while True:
-            new_mac = generate_random_mac()
+            if mac_type == "random":
+                new_mac = generate_random_mac()
+            elif mac_type in VENDORS:
+                new_mac = generate_random_mac(VENDORS[mac_type])
+            else:
+                print(f"{RED}Invalid MAC type!{RESET}")
+                break
             print(f"{YELLOW}\nChanging MAC to: {GREEN}{new_mac}{RESET}")
             change_mac(interface, new_mac)
             time.sleep(interval)
@@ -113,29 +119,23 @@ def main():
         print(f"{RED}Invalid selection!{RESET}")
         sys.exit(1)
     
-    mode = input(f"\n{CYAN}Enable Auto MAC Change Mode? (y/N): {RESET}").strip().lower()
-    if mode == "y":
-        interval = int(input(f"{CYAN}Enter time interval (seconds): {RESET}"))
-        auto_change_mac(interface, interval)
-        sys.exit(0)
+    interval = int(input(f"{CYAN}Enter time interval (seconds): {RESET}"))
     
     print(f"{CYAN}\nChoose MAC Address Option:{RESET}")
-    print(f"{YELLOW}1. Enter Custom MAC{RESET}")
-    print(f"{YELLOW}2. Choose Vendor MAC{RESET}")
-    print(f"{YELLOW}3. Random MAC (Press ENTER for default){RESET}")
+    print(f"{YELLOW}1. Random MAC{RESET}")
+    print(f"{YELLOW}2. Choose Vendor MAC (Android/iOS/Windows/Linux){RESET}")
     
-    option = input(f"\n{CYAN}Select option [1-3]: {RESET}").strip()
+    option = input(f"\n{CYAN}Select option [1-2]: {RESET}").strip()
     
     if option == "1":
-        new_mac = input(f"{CYAN}Enter new MAC address: {RESET}")
+        mac_type = "random"
     elif option == "2":
-        vendor = input(f"{CYAN}Choose Vendor (Android/iOS/Windows/Linux): {RESET}")
-        new_mac = generate_random_mac(VENDORS.get(vendor))
+        mac_type = input(f"{CYAN}Choose Vendor: {RESET}").strip()
     else:
-        new_mac = generate_random_mac()
+        print(f"{RED}Invalid selection!{RESET}")
+        sys.exit(1)
     
-    change_mac(interface, new_mac)
-    print(f"\n{GREEN}Success! New MAC: {new_mac}{RESET}")
+    auto_change_mac(interface, interval, mac_type)
 
 if __name__ == "__main__":
     main()
